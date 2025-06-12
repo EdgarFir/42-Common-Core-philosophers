@@ -6,7 +6,7 @@
 /*   By: edfreder <edfreder@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:35:51 by edfreder          #+#    #+#             */
-/*   Updated: 2025/06/11 15:17:40 by edfreder         ###   ########.fr       */
+/*   Updated: 2025/06/11 22:53:21 by edfreder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void my_usleep(long time_ms, t_philo *ptr)
 		current = get_timestamp_ms();
 		if (current - start >= time_ms)
 			break;
-		usleep(500);
+		usleep(200);
 	}
 }
 

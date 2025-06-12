@@ -6,7 +6,7 @@
 /*   By: edfreder <edfreder@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:22:11 by edfreder          #+#    #+#             */
-/*   Updated: 2025/06/11 15:58:10 by edfreder         ###   ########.fr       */
+/*   Updated: 2025/06/11 23:12:46 by edfreder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int eat(t_philo *philo, pthread_mutex_t *fork1, pthread_mutex_t *fork2)
 {
-	if ((philo->id % 2))
-		my_usleep(1, philo);
 	pthread_mutex_lock(fork1);
 	if (log_if_philo_alive(philo, "taken a fork"))
 	{
@@ -53,8 +51,9 @@ void	*routine(void *arg)
 	{
 		if (is_philo_died(philo->sim))
 			return (NULL);
-		if (philo->id % 2)
+		if (philo->id % 2 == 0)
 		{
+			my_usleep(3e4, philo);
 			if (!eat(philo, &philo->fork, &philo->prev->fork))
 				return (NULL);
 		}
@@ -97,7 +96,7 @@ void	*monitor(void *arg)
 			i++;
 			curr = curr->next;
 		}
-		my_usleep(1, curr);
+		my_usleep(1 * 0.50, curr);
 	}
 	return (NULL);
 }
