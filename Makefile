@@ -1,13 +1,13 @@
 NAME = philo
 
-SRCS = philo.c philo_utils.c philo_struct_utils.c philo_error_utils.c philo_threads.c \
-	   philo_logs.c	
+SRCS = philo.c philo_clean_utils.c philo_err_utils.c philo_logs.c \
+	   philo_monitor.c philo_routine.c philo_struct_utils.c philo_utils.c
 
 OBJS = ${SRCS:.c=.o}
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -pthread
+CFLAGS = -Wall -Werror -Wextra -pthread #-fsanitize=thread
 
 RM = rm -rf
 

@@ -5,12 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: edfreder <edfreder@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/07 15:35:51 by edfreder          #+#    #+#             */
-/*   Updated: 2025/06/11 22:53:21 by edfreder         ###   ########.fr       */
+/*   Created: 2025/06/16 14:16:21 by edfreder          #+#    #+#             */
+/*   Updated: 2025/06/16 14:40:37 by edfreder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_strlen(char *s)
+{
+	int	len;
+
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
+}
 
 long	get_timestamp_ms(void)
 {
@@ -52,7 +62,8 @@ void my_usleep(long time_ms, t_philo *ptr)
 	long current;
 
 	start = get_timestamp_ms();
-	while (1)
+	current = get_timestamp_ms();
+	while (current - start < time_ms)
 	{
 		pthread_mutex_lock(&ptr->sim->dead_mutex);
 		if (ptr->sim->philo_died)
@@ -61,36 +72,7 @@ void my_usleep(long time_ms, t_philo *ptr)
 			break;
 		}
 		pthread_mutex_unlock(&ptr->sim->dead_mutex);
-
 		current = get_timestamp_ms();
-		if (current - start >= time_ms)
-			break;
 		usleep(200);
 	}
-}
-
-int	destroy_mutexes(t_simulation *sim)
-{
-	int		i;
-	t_philo	*curr;
-
-	if (pthread_mutex_destroy(&sim->dead_mutex) != 0)
-		return (error("Destroying sim dead mutex.\n", 0));
-	if (pthread_mutex_destroy(&sim->log_mutex) != 0)
-		return (error("Destroying sim log mutex.\n", 0));
-	curr = sim->head;
-	i = 0;
-	while (i < sim->philo_c)
-	{
-		if (pthread_mutex_destroy(&curr->fork) != 0)
-		{
-			perror("");
-			return (error("Destroying philo fork mutex.\n", 0));
-		}
-		if (pthread_mutex_destroy(&curr->meal_mutex) != 0)
-			return (error("Destroying philo meal mutex.\n", 0));
-		i++;
-		curr = curr->next;
-	}
-	return (1);
 }
